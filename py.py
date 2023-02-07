@@ -208,7 +208,27 @@ class Handler:
       cpu_cores = vmcores.get_value()
       vmMemory = vmvmemory.get_value()
       if c['b'] == 2:
-        mailB = print("VboxManage", "bios=efi")
+        mailB = print("VboxManage", uuid, "bios=efi")
+      if c['c'] == 2:
+        mailC = print("VBoxManage", uuid, "--drag-and-drop= disabled")
+      if c['d'] == 2:
+        mailD = print
+      if c['e'] == 2:
+        mailE = print
+      if c['f'] == 2:
+        mailF = print
+      if c['G'] == 2:
+        mailG = print
+
+      var = "grep MemTotal /proc/meminfo| awk -F ' ' '{print $2}'"
+      output = subprocess.getoutput(var)
+      print (output)
+      max_ram_mb = int(output) / 1000
+      print(max_ram_mb)
+      vm_memory.set_range(0, max_ram_mb)
+      text = str("Max = ") + str(max_ram_mb)
+      vm_memory.set_placeholder_text(text)
+      vm_memory.set_progress_fraction(1.00)
 
 
 
@@ -233,7 +253,7 @@ vmEntry = builder.get_object("vmEntry")
 vmlocation = builder.get_object("vm_location")
 vmcores = builder.get_object("vm_cores")
 vmvmemory = builder.get_object("vm_vmemory")
-
+vmvmemory = builder.get_object("vm_vmemory")
 
 # Opends the file specified in -f command line option if provided.
 if (file != ""):
@@ -291,15 +311,7 @@ vmNetwork.set_model(store2)
 # select = tree_one.get_selection()
 # select.connect('changed', on_select_change)
 
-var = "grep MemTotal /proc/meminfo| awk -F ' ' '{print $2}'"
-output = subprocess.getoutput(var)
-print (output)
-max_ram_mb = int(output) / 1000
-print(max_ram_mb)
-vm_memory.set_range(0, max_ram_mb)
-text = str("Max = ") + str(max_ram_mb)
-vm_memory.set_placeholder_text(text)
-vm_memory.set_progress_fraction(1.00)
+
 
 tree_one.set_model(store)
 # Recursively shows the 'window' widget, and any child widgets.
